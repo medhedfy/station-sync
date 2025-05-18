@@ -87,7 +87,8 @@ export class ShellApiService {
   constructor(private http: HttpClient) { }
 
   getAllShell(): Observable<any> {
-     return of(this.shells);
+     //return of(this.shells);
+     return this.http.get(this.shellApiUrl+'/shells');
   }
     
 }
