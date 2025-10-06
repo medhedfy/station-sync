@@ -55,11 +55,22 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy to VM') {
+      when { branch 'main' } // change if your main branch has another name
+      steps {
+        sh '''
+          cd /opt/stationsync
+          docker compose pull
+          docker compose up -d
+        '''
+      }
+    }
   }
 
   post {
     success {
-      echo "✅ Build Angular réussi et Docker push OK : ${IMAGE_NAME}:latest"
+      echo "✅ Build Angular réussi, Docker push & déploiement OK : ${IMAGE_NAME}:latest"
     }
     failure {
       echo "❌ Erreur pendant le pipeline Angular. Vérifie les logs Jenkins."
